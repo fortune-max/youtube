@@ -14,8 +14,10 @@ import {
     VideoStats, 
     VideoTitle
 } from "./VideoDetail.styled";
+import { useParams } from "react-router-dom";
 
-const VideoDetail = ({ videoId }: { videoId: string }) => {
+const VideoDetail = () => {
+    const { videoId } = useParams();
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
     const { data } = useSWR(`https://youtube.thorsteinsson.is/api/videos/${videoId}`, fetcher);
