@@ -395,7 +395,7 @@ const sampleVideos = [
        snippet: {
           url: "https://www.youtube.com/watch?v=KZS8d0zXaUU",
           duration: "3:19",
-          publishedAt: null,
+          publishedAt: "1 year ago",
           thumbnails: {
              id: "KZS8d0zXaUU",
              url: "https://i.ytimg.com/vi/KZS8d0zXaUU/hq720.jpg?sqp=-oaymwEXCNAFEJQDSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLBZoEDVwy7YVTcsRsvkyBEz394v3A",

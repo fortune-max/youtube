@@ -12,32 +12,38 @@ export const timeAgo = (date: string) => {
     let interval = seconds / 31536000;
 
     if (interval > 1) {
-        return Math.floor(interval) + " years";
+        const val = Math.floor(interval);
+        return val + " year" + (val > 1 ? "s" : "");
     }
 
     interval = seconds / 2592000;
 
     if (interval > 1) {
-        return Math.floor(interval) + " months";
+        const val = Math.floor(interval);
+        return val + " month" + (val > 1 ? "s" : "");
     }
 
     interval = seconds / 86400;
 
     if (interval > 1) {
-        return Math.floor(interval) + " days";
+        const val = Math.floor(interval);
+        return val + " day" + (val > 1 ? "s" : "");
     }
 
     interval = seconds / 3600;
 
     if (interval > 1) {
-        return Math.floor(interval) + " hours";
+        const val = Math.floor(interval);
+        return val + " hour" + (val > 1 ? "s" : "");
     }
 
     interval = seconds / 60;
 
     if (interval > 1) {
-        return Math.floor(interval) + " minutes";
+        const val = Math.floor(interval);
+        return val + " minute" + (val > 1 ? "s" : "");
     }
 
-    return Math.floor(seconds) + " seconds";
+    const val = Math.floor(interval);
+    return val + " second" + (val > 1 ? "s" : "");
 };
