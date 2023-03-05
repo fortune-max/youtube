@@ -13,7 +13,7 @@ export const VideoDetails = styled.div`
     display: flex;
     flex-direction: column;
     gap: 10px;
-    height: 100%;
+    height: 150px;
     overflow: auto;
     background-color: #f0f0f0;
     border-radius: 10px;

@@ -6,7 +6,8 @@ import useSWR from "swr";
 const SearchContainer = styled.div`
     display: flex;
     flex-direction: column;
-    width: 100%;
+    max-width: 500px;
+    justify-content: space-between;
     height: 100%;
     overflow: auto;
 `;
@@ -28,8 +29,8 @@ const SearchResults = styled.div`
     overflow: auto;
 `;
 
-const Search = () => {
-    const [searchTerm, setSearchTerm] = useState("");
+const SideSearchBar = () => {
+    const [searchTerm, setSearchTerm] = useState("hello");
 
     const handleSearchTermChange = (event: any) => {
         setSearchTerm(event.target.value);
@@ -53,4 +54,4 @@ const Search = () => {
     );
 };
 
-export default Search;
+export default SideSearchBar;
