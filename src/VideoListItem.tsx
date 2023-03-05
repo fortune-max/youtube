@@ -1,17 +1,6 @@
-// [0].id.videoId
-// [0].url
-// [0].title
-// [0].description
-// [0].publishedAt
-// [0].channelName
-// [0].duration_raw
-// [0].views
-// [0].snippet.thumbnails.url
-// [0].snippet.thumbnails.width
-// [0].snippet.thumbnails.height
-
 import React from 'react';
 import styled from 'styled-components';
+import { formatNum } from './utils';
 
 const ItemContainer = styled.div`
     display: inline-flex;
@@ -48,14 +37,6 @@ const VideoViews = styled.div`
     font-size: 14px;
     color: #999;
 `;
-
-const formatNum = (n: number) => {
-    if (n < 1e3) return n;
-    if (n >= 1e3 && n < 1e6) return +(n / 1e3).toFixed(1) + "K";
-    if (n >= 1e6 && n < 1e9) return +(n / 1e6).toFixed(1) + "M";
-    if (n >= 1e9 && n < 1e12) return +(n / 1e9).toFixed(1) + "B";
-    if (n >= 1e12) return +(n / 1e12).toFixed(1) + "T";
-  };
 
 const VideoListItem = ({ video } : { video: any}) => {
     return (
