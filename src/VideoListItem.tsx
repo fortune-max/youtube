@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 const ItemContainer = styled.div`
     display: inline-flex;
     flex-direction: row;
-    border: 1px solid #ccc;
     padding: 4px;
 `;
 

@@ -7,13 +7,13 @@ const SearchContainer = styled.div`
     display: flex;
     flex-direction: column;
     max-width: 500px;
+    width: 500px;
     justify-content: space-between;
-    height: 100%;
+    height: calc(100vh - 120px);
     overflow: auto;
 `;
 
 const SearchBar = styled.input`
-    width: 100%;
     height: 30px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -30,10 +30,16 @@ const SearchResults = styled.div`
 `;
 
 const SideSearchBar = () => {
+    const [inputValue, setInputValue] = useState("");
     const [searchTerm, setSearchTerm] = useState("hello");
 
     const handleSearchTermChange = (event: any) => {
-        setSearchTerm(event.target.value);
+        setInputValue(event.target.value);
+    };
+
+    const handleKeydown = (event: any) => {
+        if (event.key === "Enter")
+            setSearchTerm(inputValue);
     };
 
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -42,7 +48,7 @@ const SideSearchBar = () => {
 
     return (
         <SearchContainer>
-            <SearchBar type="text" value={searchTerm} onChange={handleSearchTermChange} />
+            <SearchBar type="text" value={inputValue} onChange={handleSearchTermChange} onKeyDown={handleKeydown} placeholder="Search" />
             <SearchResults>
                 {
                     (!data) ? (

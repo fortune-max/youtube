@@ -24,7 +24,7 @@ const VideoDetail = () => {
     const { data } = useSWR(`https://youtube.thorsteinsson.is/api/videos/${videoId}`, fetcher);
 
     return (
-        <div style={{display: "flex"}}>
+        <div style={{display: "flex", justifyContent: "space-between"}}>
             <VideoDetailContainer>
                 <YouTube style={{width: "640px", height: "360px"}} videoId={videoId} />
                 <VideoDetails>
