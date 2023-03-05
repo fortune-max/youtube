@@ -7,6 +7,7 @@ import Layout from './Layout';
 import VideoCardContainer from './VideoCardContainer';
 import sampleVideos from './videos';
 import VideoDetail from './VideoDetail';
+import MainSearchBar from './MainSearchBar';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -18,6 +19,7 @@ root.render(
         <Route path="/" element={<Layout />}>
           <Route index element={<VideoCardContainer videosArray={sampleVideos}/>} />
           <Route path="video/:videoId" element={<VideoDetail />} />
+          <Route path="search" element={<MainSearchBar />} />
         </Route>
       </Routes>
     </BrowserRouter>

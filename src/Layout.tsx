@@ -1,6 +1,7 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import youtubeLogo from "./youtube_logo.png";
+import { useState } from "react";
 
 const LayoutContainer = styled.div`
     position: relative;
@@ -23,6 +24,21 @@ const Logo = styled.img`
     margin-left: 20px;
 `;
 
+const SearchBarContainer = styled.div`
+    display: flex;
+    width: 100%;
+    justify-content: center;
+`;
+
+const SearchBar = styled.input`
+    width: 600px;
+    height: 30px;
+    border: 1px solid #ccc;
+    border-radius: 50px;
+    padding: 0 10px;
+    font-size: 14px;
+`;
+
 const OutletWrapper = styled.div`
     margin-top: 80px;
     padding: 20px;
@@ -30,19 +46,35 @@ const OutletWrapper = styled.div`
 `;
 
 const Layout = () => {
-  return (
-    <LayoutContainer>
-        <Header>
-            <Link to="/">
-                <Logo src={youtubeLogo} alt="youtube logo"/>
-            </Link>
-        </Header>
-        
-        <OutletWrapper>
-            <Outlet />
-        </OutletWrapper>
-    </LayoutContainer>
-  );
+    const navigate = useNavigate();
+
+    const [searchTerm, setSearchTerm] = useState("");
+
+    const handleOnChange = (event: any) => {
+        setSearchTerm(event.target.value);
+    };
+
+    const handleKeydown = (event: any) => {
+        if (event.key === "Enter")
+            navigate(`/search?q=${searchTerm}`);
+    };
+
+    return (
+        <LayoutContainer>
+            <Header>
+                <Link to="/">
+                    <Logo src={youtubeLogo} alt="youtube logo"/>
+                </Link>
+                <SearchBarContainer>
+                    <SearchBar value={searchTerm} type="text" placeholder="Search" onKeyDown={handleKeydown} onChange={handleOnChange} />
+                </SearchBarContainer>
+            </Header>
+
+            <OutletWrapper>
+                <Outlet />
+            </OutletWrapper>
+        </LayoutContainer>
+    );
 }
 
 export default Layout;
