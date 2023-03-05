@@ -14,6 +14,7 @@ import {
     VideoStats, 
     VideoTitle
 } from "./VideoDetail.styled";
+import SideSearchBar from "./SideSearchBar";
 import { useParams } from "react-router-dom";
 
 const VideoDetail = () => {
@@ -23,27 +24,30 @@ const VideoDetail = () => {
     const { data } = useSWR(`https://youtube.thorsteinsson.is/api/videos/${videoId}`, fetcher);
 
     return (
-        <VideoDetailContainer>
-            <YouTube style={{width: "640px", height: "360px"}} videoId={videoId} />
-            <VideoDetails>
-                <VideoTitle>{data?.title}</VideoTitle>
-                <VideoStats>
-                    <ChannelCard>
-                        <ChannelThumbnail src={"https://picsum.photos/100/100"} alt="thumbnail" />
-                        <ChannelDetails>
-                            <BoldText>{data?.owner}</BoldText>
-                            <ThinText>{formatNum(data?.views / 123)} subscribers</ThinText>
-                        </ChannelDetails>
-                    </ChannelCard>
-                    <FlexColumn>
-                        <BoldText>{`${formatNum(data?.views / 161)} likes`}</BoldText>
-                        <ThinText>{`${timeAgo(data?.datePublished)} ago`}</ThinText>
-                    </FlexColumn>
-                </VideoStats>
-                
-                <VideoDescription>{data?.description}</VideoDescription>
-            </VideoDetails>
-        </VideoDetailContainer>
+        <div style={{display: "flex"}}>
+            <VideoDetailContainer>
+                <YouTube style={{width: "640px", height: "360px"}} videoId={videoId} />
+                <VideoDetails>
+                    <VideoTitle>{data?.title}</VideoTitle>
+                    <VideoStats>
+                        <ChannelCard>
+                            <ChannelThumbnail src={"https://picsum.photos/100/100"} alt="thumbnail" />
+                            <ChannelDetails>
+                                <BoldText>{data?.owner}</BoldText>
+                                <ThinText>{formatNum(Math.round(data?.views / 123))} subscribers</ThinText>
+                            </ChannelDetails>
+                        </ChannelCard>
+                        <FlexColumn>
+                            <BoldText>{`${formatNum(Math.round(data?.views / 161))} likes`}</BoldText>
+                            <ThinText>{`${timeAgo(data?.datePublished)} ago`}</ThinText>
+                        </FlexColumn>
+                    </VideoStats>
+                    
+                    <VideoDescription>{data?.description}</VideoDescription>
+                </VideoDetails>
+            </VideoDetailContainer>
+            <SideSearchBar />
+        </div>
     );
 };
 
