@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { formatNum } from './utils';
+import { useNavigate } from "react-router-dom";
 
 const ItemContainer = styled.div`
     display: inline-flex;
@@ -39,8 +40,10 @@ const VideoViews = styled.div`
 `;
 
 const VideoListItem = ({ video } : { video: any}) => {
+    const navigate = useNavigate();
+
     return (
-        <ItemContainer>
+        <ItemContainer onClick={()=> {navigate(`/video/${video.id.videoId}`)}}>
             <Thumbnail src={video.snippet.thumbnails.url} alt="" />
             <VideoInfo>
                 <VideoTitle>{video.snippet.title}</VideoTitle>

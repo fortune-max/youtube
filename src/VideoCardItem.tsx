@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { formatNum } from "./utils";
+import { useNavigate } from "react-router-dom";
 
 const VideoCardItemContainer = styled.div`
     display: inline-flex;
@@ -60,8 +61,10 @@ const ChannelThumbnail = styled.img`
 const randomNum = () => Math.ceil(Math.random()*100);
 
 const VideoCardItem = ({ video } : { video: any}) => {
+    const navigate = useNavigate();
+
     return (
-        <VideoCardItemContainer>
+        <VideoCardItemContainer onClick={()=> {navigate(`/video/${video.id.videoId}`)}}>
             <Thumbnail src={video.snippet.thumbnails.url} alt="" />
             <VideoInfo>
                 <ChannelThumbnail src={`https://picsum.photos/id/${randomNum()}/100/100`} alt="thumbnail" />
