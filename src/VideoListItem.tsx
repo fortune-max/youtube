@@ -1,4 +1,4 @@
-import React from 'react';
+import useSWR from 'swr';
 import styled from 'styled-components';
 import { formatNum } from './utils';
 import { useNavigate } from "react-router-dom";
@@ -10,6 +10,7 @@ const ItemContainer = styled.div`
 `;
 
 const Thumbnail = styled.img`
+    min-width: 168px;
     width: 168px;
     height: 94px;
     border-radius: 8px;
@@ -38,12 +39,33 @@ const VideoViews = styled.div`
     color: #999;
 `;
 
-const VideoListItem = ({ video } : { video: any}) => {
+const VideoListItem = ({ video, videoId, onVideoClick, needsFetch } : {
+    video?: any,
+    videoId?: string,
+    onVideoClick?: (videoId: string)=>void;
+    needsFetch: boolean;
+}) => {
     const navigate = useNavigate();
+    const fetcher = (url: string) => fetch(url).then((res) => res.json());
+    const { data } = useSWR(`https://youtube.thorsteinsson.is/api/videos/${videoId}`, fetcher);
+    
+    if (needsFetch){
+        if (!data) return <div>Loading...</div>;
+        return (
+            <ItemContainer onClick={() => onVideoClick?.(data.videoId)}>
+                <Thumbnail src={data.thumbnailUrl} />
+                <VideoInfo>
+                    <VideoTitle>{data.title}</VideoTitle>
+                    <VideoChannel>{data.owner}</VideoChannel>
+                    <VideoViews>{formatNum(data.views)} views</VideoViews>
+                </VideoInfo>
+            </ItemContainer>
+        );
+    }
 
     return (
         <ItemContainer onClick={()=> {navigate(`/video/${video.id.videoId}`)}}>
-            <Thumbnail src={video.snippet.thumbnails.url} alt="" />
+            <Thumbnail src={video.snippet.thumbnails.url} />
             <VideoInfo>
                 <VideoTitle>{video.snippet.title}</VideoTitle>
                 <VideoChannel>{video.channelName}</VideoChannel>
