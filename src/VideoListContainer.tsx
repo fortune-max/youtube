@@ -10,7 +10,7 @@ const VideoListContainerElement = styled.div`
 
 const VideoListContainer = ({ videosArray }: { videosArray: any[]}) => {
     const children = videosArray.map((video, idx) => {
-        return <VideoListItem key={idx} video={video} />;
+        return <VideoListItem key={idx} video={video} needsFetch={false} />;
     });
     return <VideoListContainerElement>{children}</VideoListContainerElement>;
 };
