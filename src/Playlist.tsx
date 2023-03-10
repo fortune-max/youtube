@@ -95,6 +95,19 @@ const Playlist = () => {
 
     const onEnd = async (event: YouTubeEvent) => {
         const currentIndex = data.videoIds.indexOf(data.currentVideoId);
+        if (currentIndex === data.videoIds.length - 1) {
+            const newData = {
+                ...data,
+                isPlaying: false,
+                currentVideoId: data.videoIds[0],
+                currentTime: 0,
+                lastUpdatedAt: timeNow(),
+                mountTime: mountTime
+            }
+            await updatePlaylist(newData);
+            mutate(newData);
+            return;
+        }
         const nextVideo = data.videoIds[currentIndex + 1];
         const newData = {
             ...data,
