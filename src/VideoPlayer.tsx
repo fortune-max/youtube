@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import YouTube from "react-youtube";
+import YouTube, { YouTubeEvent } from "react-youtube";
 import { timeAgo, formatNum } from "./utils";
 import {
     BoldText, 
@@ -15,8 +15,14 @@ import {
     VideoTitle
 } from "./VideoPlayer.styled";
 
-const VideoPlayer = ({ videoId }: {
+const VideoPlayer = ({ videoId, onReady, onEnd, onPlay, onPause, autoplay }: {
     videoId: string;
+    startTime?: number;
+    autoplay?: number;
+    onReady?: (e: YouTubeEvent) => void;
+    onEnd?: (e: YouTubeEvent) => void;
+    onPlay?: (e: YouTubeEvent) => void;
+    onPause?: (e: YouTubeEvent) => void;
 }) => {
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -25,7 +31,14 @@ const VideoPlayer = ({ videoId }: {
     return (
         <div style={{display: "flex", justifyContent: "space-between"}}>
             <VideoDetailContainer>
-                <YouTube style={{width: "640px", height: "360px"}} videoId={videoId} />
+                <YouTube style={{width: "640px", height: "360px"}} videoId={videoId} onReady={onReady} onEnd={onEnd} onPause={onPause} onPlay={onPlay} opts={
+                    {
+                        playerVars: {
+                            autoplay: autoplay || 0,
+                            mute: 1
+                        }
+                    } 
+                } />
                 <VideoDetails>
                     <VideoTitle>{data?.title}</VideoTitle>
                     <VideoStats>
