@@ -66,7 +66,7 @@ const Layout = () => {
                 <Link to="/">
                     <Logo src={youtubeLogo} alt="youtube logo"/>
                 </Link>
-                {location.pathname.startsWith("/video/") ? null : (
+                {location.pathname !== "/" ? null : (
                     <SearchBarContainer>
                         <SearchBar value={searchTerm} type="text" placeholder="Search" onKeyDown={handleKeydown} onChange={handleOnChange} />
                     </SearchBarContainer>
