@@ -17,6 +17,9 @@ const PlaylistName = styled.div`
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 10px;
+    margin-top: 10px;
+    font-family: "Roboto", sans-serif;
+    color: #333;
 `;
 
 const PlaylistView = styled.div`
@@ -50,8 +53,12 @@ const Playlist = () => {
     const [lastProcessedTimestamp, setLastProcessedTimestamp] = useState(0);
     const mountTime = timeNow();
 
-    const updatePlaylist = async (data: any) => {
-        await fetch(playlistUrl, {
+    const updatePlaylist = async (data: any, playlistId?: string) => {
+        let newUrl;
+        if (playlistId !== undefined)
+            newUrl = `https://youtube.thorsteinsson.is/api/playlists/${playlistId}`;
+
+        await fetch(newUrl || playlistUrl, {
             method: 'PUT',
             body: JSON.stringify(data),
             headers: { 'Content-Type': 'application/json' }
@@ -148,13 +155,71 @@ const Playlist = () => {
         }
     }, [data, youtubeObject, mountTime, lastProcessedTimestamp]);
 
+    const deleteFromPlaylist = async (videoId: string) => {
+        const newData = {
+            ...data,
+            videoIds: data.videoIds.filter((id: string) => id !== videoId),
+            currentVideoId: data.currentVideoId === videoId ? data.videoIds[0] : data.currentVideoId,
+            currentTime: data.currentVideoId === videoId ? 0 : data.currentTime,
+            isPlaying: data.currentVideoId === videoId ? true : data.isPlaying,
+            lastUpdatedAt: timeNow(),
+            mountTime: mountTime
+        }
+        await updatePlaylist(newData);
+        mutate(newData);
+    };
+
+    const addToPlaylist = async (videoId: string, playlistId?: string) => {
+        if (playlistId !== undefined){
+            const newUrl = `https://youtube.thorsteinsson.is/api/playlists/${playlistId}`;
+            fetch(newUrl, {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+                }).then((res) => res.json()).then((res) => {
+                    if (res.videoIds.includes(videoId)) return;
+                    const newData = {
+                        ...res,
+                        videoIds: [...res.videoIds, videoId],
+                        lastUpdatedAt: timeNow(),
+                        mountTime: mountTime
+                    }
+                    updatePlaylist(newData, playlistId);
+                    return;
+                });
+            return;
+        }
+        const newData = {
+            ...data,
+            videoIds: [...data.videoIds, videoId],
+            lastUpdatedAt: timeNow(),
+            mountTime: mountTime
+        }
+        await updatePlaylist(newData);
+        mutate(newData);
+    };
+
+    const moveVideo = async (videoId: string, newIndex: number) => {
+        const currentIndex = data.videoIds.indexOf(videoId);
+        const newVideoIds = [...data.videoIds];
+        newVideoIds.splice(currentIndex, 1);
+        newVideoIds.splice(newIndex, 0, videoId);
+        const newData = {
+            ...data,
+            videoIds: newVideoIds,
+            lastUpdatedAt: timeNow(),
+            mountTime: mountTime
+        }
+        await updatePlaylist(newData);
+        mutate(newData);
+    };
+
     return (
         !data ? <div>Loading...</div> : (
             <PlaylistContainer>
                 <PlaylistName>{data.playlistName}</PlaylistName>
                 <PlaylistView>
                     <VideoPlayer videoId={data.currentVideoId} onReady={onReady} onEnd={onEnd} onPlay={onPlay} onPause={onPause} startTime={getVideoTime(data)} autoplay={+data.isPlaying}/>
-                    <VideoQueue videoIdsArray={data.videoIds} activeIndex={data.videoIds.indexOf(data.currentVideoId)} onVideoClick={onVideoClick}/>
+                    <VideoQueue videoIdsArray={data.videoIds} activeIndex={data.videoIds.indexOf(data.currentVideoId)} onVideoClick={onVideoClick} deleteFromPlaylist={deleteFromPlaylist} addToPlaylist={addToPlaylist} moveVideo={moveVideo}/>
                 </PlaylistView>
             </PlaylistContainer>
         )
