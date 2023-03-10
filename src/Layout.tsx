@@ -1,4 +1,4 @@
-import { Outlet, Link, useNavigate } from "react-router-dom";
+import { Outlet, Link, useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import youtubeLogo from "./youtube_logo.png";
 import { useState } from "react";
@@ -47,6 +47,7 @@ const OutletWrapper = styled.div`
 
 const Layout = () => {
     const navigate = useNavigate();
+    const location = useLocation();
 
     const [searchTerm, setSearchTerm] = useState("");
 
@@ -65,9 +66,11 @@ const Layout = () => {
                 <Link to="/">
                     <Logo src={youtubeLogo} alt="youtube logo"/>
                 </Link>
-                <SearchBarContainer>
-                    <SearchBar value={searchTerm} type="text" placeholder="Search" onKeyDown={handleKeydown} onChange={handleOnChange} />
-                </SearchBarContainer>
+                {location.pathname.startsWith("/video/") ? null : (
+                    <SearchBarContainer>
+                        <SearchBar value={searchTerm} type="text" placeholder="Search" onKeyDown={handleKeydown} onChange={handleOnChange} />
+                    </SearchBarContainer>
+                )}
             </Header>
 
             <OutletWrapper>
