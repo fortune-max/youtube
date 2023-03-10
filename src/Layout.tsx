@@ -1,4 +1,4 @@
-import { Outlet, Link, useNavigate, useLocation } from "react-router-dom";
+import { Outlet, Link, useNavigate, useLocation, NavLink } from "react-router-dom";
 import styled from "styled-components";
 import youtubeLogo from "./youtube_logo.png";
 import { useState } from "react";
@@ -39,6 +39,11 @@ const SearchBar = styled.input`
     font-size: 14px;
 `;
 
+const NavWrapper = styled.div`
+    position: absolute;
+    right: 30px;
+`;
+
 const OutletWrapper = styled.div`
     margin-top: 80px;
     padding: 20px;
@@ -71,8 +76,10 @@ const Layout = () => {
                         <SearchBar value={searchTerm} type="text" placeholder="Search" onKeyDown={handleKeydown} onChange={handleOnChange} />
                     </SearchBarContainer>
                 )}
+                <NavWrapper>
+                    <NavLink to="/playlist">Playlists</NavLink>
+                </NavWrapper>
             </Header>
-
             <OutletWrapper>
                 <Outlet />
             </OutletWrapper>
