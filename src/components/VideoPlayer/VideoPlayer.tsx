@@ -1,6 +1,6 @@
 import useSWR from "swr";
 import YouTube from "react-youtube";
-import { timeAgo, formatNum } from "./utils";
+import { timeAgo, formatNum } from "../../utils";
 import {
     BoldText, 
     ChannelCard, 
@@ -13,20 +13,31 @@ import {
     VideoDetails, 
     VideoStats, 
     VideoTitle
-} from "./VideoDetail.styled";
-import SideSearchBar from "./SideSearchBar";
-import { useParams } from "react-router-dom";
+} from "./VideoPlayer.styled";
 
-const VideoDetail = () => {
-    const { videoId } = useParams();
+const VideoPlayer = ({ fromPlaylist, videoId, autoplay, onPlay, onPause, onEnd, onReady }: {
+    fromPlaylist?: boolean;
+    videoId: string;
+    autoplay?: number;
+    onPlay?: (e: any) => void;
+    onPause?: (e: any) => void;
+    onEnd?: (e: any) => void;
+    onReady?: (e: any) => void;
+}) => {
+    if (fromPlaylist) autoplay = 1;
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
     const { data } = useSWR(`https://youtube.thorsteinsson.is/api/videos/${videoId}`, fetcher);
 
     return (
-        <div style={{display: "flex", justifyContent: "space-between"}}>
             <VideoDetailContainer>
-                <YouTube style={{width: "640px", height: "360px"}} videoId={videoId} />
+                <YouTube style={{width: "640px", height: "360px"}} videoId={videoId} onReady={onReady} onEnd={onEnd} onPause={onPause} onPlay={onPlay} opts={
+                    {
+                        playerVars: {
+                            autoplay: autoplay || 0,
+                            mute: 0
+                        }
+                    } 
+                } />
                 <VideoDetails>
                     <VideoTitle>{data?.title}</VideoTitle>
                     <VideoStats>
@@ -46,9 +57,7 @@ const VideoDetail = () => {
                     <VideoDescription>{data?.description}</VideoDescription>
                 </VideoDetails>
             </VideoDetailContainer>
-            <SideSearchBar />
-        </div>
     );
 };
 
-export default VideoDetail;
+export default VideoPlayer;

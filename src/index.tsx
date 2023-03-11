@@ -3,11 +3,13 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from './Layout';
-import VideoCardContainer from './VideoCardContainer';
+import Layout from './components/Layout/Layout';
+import VideoCardContainer from './components/VideoCardContainer/VideoCardContainer';
 import sampleVideos from './videos';
-import VideoDetail from './VideoDetail';
-import MainSearchBar from './MainSearchBar';
+import VideoDetail from './components/VideoDetail/VideoDetail';
+import MainSearchBar from './components/MainSearchBar/MainSearchBar';
+import Playlist from './components/Playlist/Playlist';
+import PlaylistViewer from './components/PlaylistViewer/PlaylistViewer';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -19,6 +21,8 @@ root.render(
         <Route path="/" element={<Layout />}>
           <Route index element={<VideoCardContainer videosArray={sampleVideos}/>} />
           <Route path="video/:videoId" element={<VideoDetail />} />
+          <Route path="playlist" element={<PlaylistViewer />} />
+          <Route path="playlist/:playlistId" element={<Playlist />} />
           <Route path="search" element={<MainSearchBar />} />
         </Route>
       </Routes>
