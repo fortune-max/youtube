@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import VideoCardContainer from "./VideoCardContainer";
+import VideoCardContainer from "../VideoCardContainer";
 import { useSearchParams } from "react-router-dom";
 import useSWR from "swr";
 

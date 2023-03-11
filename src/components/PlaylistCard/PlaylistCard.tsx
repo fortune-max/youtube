@@ -1,20 +1,9 @@
 import useSWR from "swr";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-
-const PlaylistElement = styled.div`
-    display: inline-flex;
-    flex-direction: column;
-    gap: 10px;
-    cursor: pointer;
-    align-items: center;
-`;
-
-const Thumbnail = styled.img`
-    width: 300px;
-    height: 200px;
-    border-radius: 10px;
-`;
+import {
+    PlaylistElement,
+    Thumbnail
+} from "./PlaylistCard.styled";
 
 const PlaylistCard = ({ playlistId } : {
     playlistId: string,

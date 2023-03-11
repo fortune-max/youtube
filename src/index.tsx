@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from './Layout';
-import VideoCardContainer from './VideoCardContainer';
+import Layout from './components/Layout/Layout';
+import VideoCardContainer from './components/VideoCardContainer/VideoCardContainer';
 import sampleVideos from './videos';
-import VideoDetail from './VideoDetail';
-import MainSearchBar from './MainSearchBar';
-import Playlist from './Playlist';
-import PlaylistViewer from './PlaylistViewer';
+import VideoDetail from './components/VideoDetail/VideoDetail';
+import MainSearchBar from './components/MainSearchBar/MainSearchBar';
+import Playlist from './components/Playlist/Playlist';
+import PlaylistViewer from './components/PlaylistViewer/PlaylistViewer';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

@@ -1,6 +1,6 @@
 import useSWR from "swr";
-import YouTube, { YouTubeEvent } from "react-youtube";
-import { timeAgo, formatNum } from "./utils";
+import YouTube from "react-youtube";
+import { timeAgo, formatNum } from "../../utils";
 import {
     BoldText, 
     ChannelCard, 
@@ -15,27 +15,26 @@ import {
     VideoTitle
 } from "./VideoPlayer.styled";
 
-const VideoPlayer = ({ videoId, onReady, onEnd, onPlay, onPause, autoplay }: {
+const VideoPlayer = ({ fromPlaylist, videoId, autoplay, onPlay, onPause, onEnd, onReady }: {
+    fromPlaylist?: boolean;
     videoId: string;
-    startTime?: number;
     autoplay?: number;
-    onReady?: (e: YouTubeEvent) => void;
-    onEnd?: (e: YouTubeEvent) => void;
-    onPlay?: (e: YouTubeEvent) => void;
-    onPause?: (e: YouTubeEvent) => void;
+    onPlay?: (e: any) => void;
+    onPause?: (e: any) => void;
+    onEnd?: (e: any) => void;
+    onReady?: (e: any) => void;
 }) => {
+    if (fromPlaylist) autoplay = 1;
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
     const { data } = useSWR(`https://youtube.thorsteinsson.is/api/videos/${videoId}`, fetcher);
 
     return (
-        <div style={{display: "flex", justifyContent: "space-between"}}>
             <VideoDetailContainer>
                 <YouTube style={{width: "640px", height: "360px"}} videoId={videoId} onReady={onReady} onEnd={onEnd} onPause={onPause} onPlay={onPlay} opts={
                     {
                         playerVars: {
                             autoplay: autoplay || 0,
-                            mute: 1
+                            mute: 0
                         }
                     } 
                 } />
@@ -58,7 +57,6 @@ const VideoPlayer = ({ videoId, onReady, onEnd, onPlay, onPause, autoplay }: {
                     <VideoDescription>{data?.description}</VideoDescription>
                 </VideoDetails>
             </VideoDetailContainer>
-        </div>
     );
 };
 

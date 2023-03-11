@@ -1,33 +1,7 @@
-import styled from "styled-components";
-import { useState } from "react";
-import VideoListContainer from "./VideoListContainer";
 import useSWR from "swr";
-
-const SearchContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    max-width: 500px;
-    width: 500px;
-    justify-content: space-between;
-    height: calc(100vh - 120px);
-    overflow: auto;
-`;
-
-const SearchBar = styled.input`
-    height: 30px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 0 10px;
-    font-size: 14px;
-`;
-
-const SearchResults = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-`;
+import { useState } from "react";
+import VideoListContainer from "../VideoListContainer";
+import { SearchBar, SearchContainer, SearchResults } from "./SideSearchBar.styled";
 
 const SideSearchBar = () => {
     const [inputValue, setInputValue] = useState("");
@@ -39,7 +13,7 @@ const SideSearchBar = () => {
 
     const handleKeydown = (event: any) => {
         if (event.key === "Enter")
-            setSearchTerm(inputValue);
+            setSearchTerm(inputValue || "hello");
     };
 
     const fetcher = (url: string) => fetch(url).then((res) => res.json());

@@ -1,12 +1,5 @@
-import styled from "styled-components";
-import VideoListItem from "./VideoListItem";
-
-const VideoListContainerElement = styled.div`
-    display: flex;
-    flex-direction: column;
-    overflow: scroll;
-    height: 100vh;
-`;
+import VideoListItem from "../VideoListItem";
+import { VideoListContainerElement } from "./VideoListContainer.styled";
 
 const VideoListContainer = ({ videosArray }: { videosArray: any[]}) => {
     const children = videosArray.map((video, idx) => {

@@ -1,12 +1,7 @@
-import styled from "styled-components";
-import VideoPlayer from "./VideoPlayer";
-import SideSearchBar from "./SideSearchBar";
+import VideoPlayer from "../VideoPlayer";
+import SideSearchBar from "../SideSearchBar";
 import { useParams } from "react-router-dom";
-
-const VideoDetailContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-`;
+import { VideoDetailContainer } from "./VideoDetail.styled";
 
 const VideoDetail = () => {
     const videoId  = useParams().videoId as string;

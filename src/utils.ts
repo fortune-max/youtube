@@ -1,3 +1,5 @@
+import { IPlaylist } from "./types";
+
 export const formatNum = (n: number) => {
     if (n < 1e3) return n;
     if (n >= 1e3 && n < 1e6) return +(n / 1e3).toFixed(1) + "K";
@@ -5,6 +7,22 @@ export const formatNum = (n: number) => {
     if (n >= 1e9 && n < 1e12) return +(n / 1e9).toFixed(1) + "B";
     if (n >= 1e12) return +(n / 1e12).toFixed(1) + "T";
 };
+
+export const timeNow = () => Date.now();
+
+export const getVideoTime = (playlistData: IPlaylist) => {
+    if (!playlistData.isPlaying) return playlistData.currentTime;
+    return (playlistData.currentTime * 1000 + Date.now() - playlistData.lastUpdatedAt) / 1000;
+}
+
+export const updatePlaylist = async (playlistData: any, playlistId: string) => {
+    const playlistUrl = `https://youtube.thorsteinsson.is/api/playlists/${playlistId}`;
+    await fetch(playlistUrl, {
+        method: 'PUT',
+        body: JSON.stringify(playlistData),
+        headers: { 'Content-Type': 'application/json' }
+    });
+}
 
 export const timeAgo = (date: string) => {
     const seconds = Math.floor((new Date().getTime() - new Date(date).getTime()) / 1000);

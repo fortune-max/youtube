@@ -1,13 +1,6 @@
 import swr from "swr";
-import styled from "styled-components";
-import PlaylistCard from "./PlaylistCard";
-
-const PlaylistViewerContainer = styled.div`
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    grid-gap: 10px;
-    overflow: scroll;
-`;
+import { PlaylistViewerContainer } from "./PlaylistViewer.styled";
+import PlaylistCard from "../PlaylistCard";
 
 const PlaylistViewer = () => {
     const playlistDir = `https://youtube.thorsteinsson.is/api/playlists/J-NnysZRpJQx2A6eaxMwJ`;
